@@ -1,27 +1,6 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+A fantasy football web app. It scrapes data from this league 'https://www.fleaflicker.com/nfl/leagues/166321' (I wanted to use my own fantasy football league but ESPN decided it would be lovely if they just shut down their fantasy site for a few weeks because of a 3 day NFL draft :) ) I used the Net:HTTP api client for Ruby (https://ruby-doc.org/stdlib-2.4.1/libdoc/net/http/rdoc/Net/HTTP.html) to launch get requests at the league's website. I used the nokogiri gem to scrape data regarding the fantasy football teams, their players at each week (from week 1 to week 16), the team ranks, the overall player ranks, and the points scored per week by team. I also used the 'Chartclick' gem to make quick graphs illustrating the change in ranks/points scored per team. 
 
 
 Please feel free to use a different markup language if you do not plan to run
