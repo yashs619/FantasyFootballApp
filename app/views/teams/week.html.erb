@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button class='btn btn-primary pull-right'>Home<%= link_to 'Home', '/' %></button>
+<h2> Welcome to <%=@team.name%> </h2>
+<ul class="nav nav-tabs " role="tablist">
+  <li class="active"><%= link_to @team.name, '/teams/' + params[:team_id] +'/' %></li>
+  <% for i in 1...11 %>
+    <% if i != params[:team_id].to_i %>
+      <li><%= link_to @teams.find(i).name[0...9] + '..', '/teams/' + i.to_s + '/' %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><%= link_to 'Week ' + params[:id], '/teams/' + params[:team_id] + '/week/' + params[:id] %></li>
+  <% for i in 1...17 %>
+    <% if i != params[:id].to_i %>
+      <li><%= link_to 'Week ' + i.to_s, '/teams/' + params[:team_id] + '/week/' + i.to_s %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<% if @week14!= false %>
+  <h3> After Week <%=params[:id]%>, '<%=@team.name%>' was in <%=@team.teamRanks.find_by(week: params[:id]).rank.ordinalize%> place  </h3>
+  <h4> In Week <%= params[:id] %>, '<%=@team.name %>' <%= @result%> against '<%= @game.opponent %>', <%= @game.myPoints %> to <%= @game.oppPoints %>  </h4>
+<% else %>
+  <h5> '<%=@team.name%>' did not play an opponent in Week <%=params[:id]%> </h5>
+<% end %>
+
+  <table class="table table-striped table-bordered activeplayers">
+    <thead class = 'thead-inverse'>
+      <tr>
+      <td>Active Player Name</td>
+      <td>Team, Position</td>
+      <td>Week <%= params[:id]%> Scores</td>
+      <td>2016 Rankings </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @team.activePlayers.each do |player| %>
+        <tr>
+          <td><%= player.name %></td>
+          <td><%= player.posInfo %></td>
+          <td><%= player.scores.find_by(week: params[:id]).value  %></td>
+          <td><%= player.rank  %></td>
+        </tr>
+      <% end %>
+          <td></td>
+          <td>Total Points:</td>
+          <td><%= @game.myPoints  unless !@week14%></td>
+          <td></td>
+    </tbody>
+  </table>
+
+  <table class="table table-striped table-bordered benchedplayers">
+    <thead class = 'thead-inverse'>
+      <tr>
+      <td>Benched Player Name</td>
+      <td>Team, Position</td>
+      <td>Week <%= params[:id]%> Scores</td>
+      <td>2016 Rankings</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @team.benchedPlayers.each do |player| %>
+        <tr>
+          <td><%= player.name %></td>
+          <td><%= player.posInfo %></td>
+          <td><%= player.scores.find_by(week: params[:id]).value  %></td>
+          <td><%= player.rank  %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

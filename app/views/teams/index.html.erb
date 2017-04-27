@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button class='btn btn-primary pull-right'>Home<%= link_to 'Home', '/' %></button>
+<h1 class = 'page-header'> Welcome to Team <%= @team.name %> Home Page</h1>
+<h3> The owner is <%= @team.owner %> </h3>
+
+<ul class='nav nav-tabs ' role='tablist'>
+  <li class='active'><%= link_to @team.name, '/teams/' + params[:team_id] +'/' %></li>
+  <% for i in 1...11 %>
+    <% if i != params[:team_id].to_i %>
+      <li><%= link_to @teams.find(i).name[0...11] + '..', '/teams/' + i.to_s + '/' %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<ul class='nav nav-pills' role='tablist'>
+  <% for i in 1...17 %>
+     <li><%= link_to 'Week ' + i.to_s, '/teams/' + params[:team_id] + '/week/' + i.to_s %></li>
+  <% end %>
+</ul>
+
+<h4> They placed <%= @team.teamRanks.find_by(week: 16).rank.ordinalize %> in the League. </h4>
+
+<h6> The average points they scored for the 2016 season was <%= @arr[0].round(2) %> </h6>
+
+<h6> The highest points they scored in a game for the 2016 season was <%= @arr[1] %> </h6>
+
+<h6> The lowest points they scored in a game for the 2016 season was <%= @arr[2] %> </h6>
+
+<%= javascript_include_tag 'path/to/highcharts.js', 'chartkick' %>
+
+<%= line_chart @team.teamRanks.group(:week).sum(:rank), title: 'Rank Per Week',  xtitle: 'Week', ytitle: 'Rank', min: 1, max: 10, label: 'Rank', colors: ['Red']%>
+
+<%= line_chart @team.games.group(:week).sum(:myPoints), title: 'Points Per Week', xtitle: 'Week', ytitle: 'Points Fielded', label: 'Points' %>
+
+
+</body>
+</html>
